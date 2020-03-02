@@ -400,7 +400,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:enabled="false"
-            android:text="@string/next"/>
+            android:text="@string/done"/>
 
 
     </LinearLayout>

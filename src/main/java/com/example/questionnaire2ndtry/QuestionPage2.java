@@ -9,14 +9,18 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class QuestionPage extends AppCompatActivity {
+
+public class QuestionPage2 extends AppCompatActivity {
     private Button btn_next;
     private RadioGroup[] questions = new RadioGroup[7];
+    private int[] answers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.question_page);
+        setContentView(R.layout.question_page2);
+
+        answers = getIntent().getIntArrayExtra("Answers");
 
         addListenerOnButton();
         addListenerOnQuestions();
@@ -28,8 +32,8 @@ public class QuestionPage extends AppCompatActivity {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextQuestions = new Intent(view.getContext(),QuestionPage2.class);
-                int[] answers = new int[questions.length];
+                Intent feedback = new Intent(view.getContext(),FeedbackPage.class);
+                int[] currAnswers = new int[questions.length];
                 RadioButton radBtn;
 
                 for (int i =0; i < questions.length; i++) {
@@ -37,24 +41,35 @@ public class QuestionPage extends AppCompatActivity {
 
                     switch(radBtn.getText().toString()) {
                         case "1":
-                            answers[i] = 1;
+                            currAnswers[i] = 1;
                             break;
                         case "2" :
-                            answers[i] = 2;
+                            currAnswers[i] = 2;
                             break;
                         case "3" :
-                            answers[i] = 3;
+                            currAnswers[i] = 3;
                             break;
                         case "Don't Know":
-                            answers[i] = -1;
+                            currAnswers[i] = -1;
                             break;
                         default:
                             //not supposed to happen
                             break;
                     }
                 }
-                nextQuestions.putExtra("Answers", answers);
-                startActivity(nextQuestions);
+
+                int[] nextAnswers = new int[answers.length+currAnswers.length];
+
+                for(int i = 0; i < answers.length; i++) {
+                    nextAnswers[i] = answers[i];
+                }
+
+                for(int i = 0; i < currAnswers.length; i++) {
+                    nextAnswers[answers.length + i] = currAnswers[i];
+                }
+
+                feedback.putExtra("Answers", nextAnswers);
+                startActivity(feedback);
             }
         });
     }
@@ -134,6 +149,7 @@ public class QuestionPage extends AppCompatActivity {
             }
 
         });
+
     }
 
     private boolean areAllQsAnswered() {

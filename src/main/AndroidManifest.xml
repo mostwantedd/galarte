@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".FeedbackPage">
-        </activity>
+        <activity android:name=".QuestionPage2"></activity>
+        <activity android:name=".FeedbackPage"></activity>
         <activity android:name=".MainPage"></activity>
     </application>
 
