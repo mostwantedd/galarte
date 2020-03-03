@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="PREF_DARK_MODE" format="string">pref_dark_mode</attr>
+
+
+</resources>
