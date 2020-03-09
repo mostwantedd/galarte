@@ -5,7 +5,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">"Welcome! "</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
@@ -29,8 +29,10 @@
     <!-- Settings Strings -->
     <string name="back_button">Back</string>
     <string name="login_button">Login</string>
+    <string name="logout_button">Logout</string>
     <string name="region_select">Region</string>
     <string name="pref_dark_mode_str">0</string>
     <string name="pref_default_location_title">Default Location</string>
     <string name="pref_default_location_summary">Set what location the map opens to as a default</string>
+    <string name="pref_default_location_text">Bath</string>
 </resources>

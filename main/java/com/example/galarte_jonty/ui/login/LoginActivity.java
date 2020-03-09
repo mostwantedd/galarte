@@ -1,10 +1,12 @@
 package com.example.galarte_jonty.ui.login;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.galarte_jonty.R;
+import com.example.galarte_jonty.SettingsActivity;
 import com.example.galarte_jonty.ui.login.LoginViewModel;
 import com.example.galarte_jonty.ui.login.LoginViewModelFactory;
 
@@ -85,12 +88,17 @@ public class LoginActivity extends AppCompatActivity {
                     showLoginFailed(loginResult.getError());
                 }
                 if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
+                    // Complete and destroy login activity once successful
+                    LoggedInUserView model = loginResult.getSuccess();
+                    // Add the current user to the preferences as the current user
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("username", usernameEditText.getText().toString());
+                    editor.commit();
+                    updateUiWithUser(model);
+                    setResult(Activity.RESULT_OK);
+                    finish();
                 }
-                setResult(Activity.RESULT_OK);
 
-                //Complete and destroy login activity once successful
-                finish();
             }
         });
 

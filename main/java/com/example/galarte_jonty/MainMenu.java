@@ -3,6 +3,7 @@ package com.example.galarte_jonty;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,18 +14,35 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.TextView;
+
+import com.example.galarte_jonty.data.model.LoggedInUser;
 
 public class MainMenu extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     boolean darkMode;
+    String defaultLocation;
+    AccountManager accountManager;
+    String username;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         darkMode = prefs.getBoolean("pref_dark_mode", false);
+        defaultLocation = prefs.getString("default_location", "");
+        username = prefs.getString("username", "");
+
+        if (defaultLocation == null) {
+            defaultLocation = "Bath";
+        }
+
+        if (username.equals("")) {
+            username = "Guest";
+        }
 
         if (darkMode) {
             setTheme(R.style.DarkTheme);
@@ -34,11 +52,10 @@ public class MainMenu extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        TextView textView = findViewById(R.id.testDefaultLocation);
+        textView.setText("Default Location: " + defaultLocation + "\nUsername: " + username);
 
         ImageButton settingsButton = findViewById(R.id.settingsButton);
-        ImageButton takeQuizButton = findViewById(R.id.takeQuizButton);
-        ImageButton favouritesButton = findViewById(R.id.favouritesButton);
-        SearchView searchBar = findViewById(R.id.searchBar);
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,52 +64,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        takeQuizButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("Quiz");
-            }
-        });
-
-        favouritesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("Favourites");
-            }
-        });
-
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                System.out.println(s);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-
-                return false;
-            }
-        });
-
-//        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//
-//        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-//            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-//                if (key.equals("pref_dark_mode")) {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            setTheme(R.style.DarkTheme);
-//                        }
-//                    });
-//                    recreate();
-//                    System.out.println("BOO");
-//                }
-//            }
-//        };
-//
-//        prefs.registerOnSharedPreferenceChangeListener(listener);
     }
 
     public void openSettings(){

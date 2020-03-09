@@ -20,9 +20,9 @@
         android:title="Account">
 
         <Preference
-            android:title="Login"
-            android:key="@string/login_button"
-            android:widgetLayout="@layout/login_button_layout">
+            android:title="Username"
+            android:key="Logout"
+            android:widgetLayout="@layout/logout_button_layout">
         </Preference>
 
     </PreferenceCategory>
@@ -47,6 +47,7 @@
             android:key="default_location"
             android:title="@string/pref_default_location_title"
             android:summary="@string/pref_default_location_summary"></EditTextPreference>
+
 
     </PreferenceCategory>
 
