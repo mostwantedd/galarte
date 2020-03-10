@@ -8,11 +8,18 @@ CREATE TABLE USER_PREF (
  liked BOOL,
  PRIMARY KEY (ID,Style));
 
+CREATE TABLE MANAGER(
+	ID INT NOT NULL AUTO_INCREMENT,
+	PLACE_ID INT NOT NULL,
+	email VARCHAR (140) NOT NULL,
+ 	country INT NOT NULL,
+	PRIMARY KEY (ID));
+
 CREATE TABLE LOCATION (
- P_ID INT NOT NULL,
- A_ID INT NOT NULL,
+ PLACE_ID INT NOT NULL,
+ AUTHOR_ID INT NOT NULL,
  Piece INT NOT NULL,
- PRIMARY KEY (P_ID,A_ID,Piece));
+ PRIMARY KEY (PLACE_ID,AUTHOR_ID,Piece));
  
 CREATE TABLE USERS (
  ID INT NOT NULL AUTO_INCREMENT,
@@ -63,9 +70,9 @@ CREATE TABLE STYLE (
 ALTER TABLE LOCATION
 	add constraint fk_LOCATION_Piece foreign key (Piece) references ART_PIECE(ID);
 ALTER TABLE LOCATION
-	add constraint fk_LOCATION_AID foreign key (A_ID) references AUTHOR(ID); 
+	add constraint fk_LOCATION_AID foreign key (AUTHOR_ID) references AUTHOR(ID); 
 ALTER TABLE LOCATION
-	add constraint fk_LOCATION_PID foreign key (P_ID) references PLACE(ID);
+	add constraint fk_LOCATION_PID foreign key (PLACE_ID) references PLACE(ID);
 ALTER TABLE ART_PIECE
 	add constraint fk_ART_PIECE_APS foreign key (style) references STYLE(ID);
 ALTER TABLE AUTHOR

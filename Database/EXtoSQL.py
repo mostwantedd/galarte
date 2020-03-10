@@ -8,11 +8,16 @@ sheet_names = book.sheet_names()
 database = MySQLdb.connect (host="localhost", user = "root", passwd = "ip20", db = "ip")
 print("connected to the DB")
 
+ART_PIECE_name = []
+name_of_location = ""
+
+# Get the cursor, which is used to traverse the database, line by line
+cursor = database.cursor()
+
 for i in range (0,len(sheet_names)):
 	sheet = book.sheet_by_name(sheet_names[i])
 	
-	# Get the cursor, which is used to traverse the database, line by line
-	cursor = database.cursor()
+	
 
 	# Create the INSERT INTO sql query
 	if sheet_names[i] == "STYLE":
@@ -27,13 +32,13 @@ for i in range (0,len(sheet_names)):
 	# Create a For loop to iterate through each row in the XLS file, starting at row 2 to skip the headers
 	for r in range(1, sheet.nrows):
 		if sheet.cell(r,0).value != "":   #check if the first cell is empty
-			name = sheet.cell(r,0).value
+			name = sheet.cell(r,0).value.strip()
 			if sheet_names[i] == "STYLE":
 				cursor.execute("""SELECT name FROM STYLE WHERE name = '%s' """ % (name.strip()))
 				check =  cursor.fetchall()
-				if(name == check[0][0]):
-					break
-				
+				if(len(check) > 0):
+					if(name == check[0][0]):
+						break
 				era	            = int(sheet.cell(r,1).value)
 				description	    = sheet.cell(r,2).value
 				
@@ -42,8 +47,9 @@ for i in range (0,len(sheet_names)):
 			elif sheet_names[i] == "AUTHOR":
 				cursor.execute("""SELECT name FROM AUTHOR WHERE name = '%s' """ % (name.strip()))
 				check =  cursor.fetchall()
-				if(name == check[0][0]):
-					break
+				if(len(check) > 0):
+					if(name == check[0][0]):
+						break
 
 				style 			= sheet.cell(r,1).value
 				cursor.execute("""SELECT ID FROM STYLE WHERE name = '%s' """ % (style.strip()))
@@ -54,9 +60,10 @@ for i in range (0,len(sheet_names)):
 				death 			= int(sheet.cell(r,3).value)
 				description 	= sheet.cell(r,4).value
 
-				values = (name, style_id[0],born,death, description)
+				values = (name, style_id[0][0],born,death, description)
 
 			elif sheet_names[i] == "ART_PIECE":
+				ART_PIECE_name.append(name)
 				author 			= sheet.cell(r,1).value
 				cursor.execute("SELECT ID FROM AUTHOR WHERE name='%s' """ % (author.strip()))
 				author_id =  cursor.fetchall()
@@ -68,13 +75,15 @@ for i in range (0,len(sheet_names)):
 				date 			= int(sheet.cell(r,3).value)
 				description 	= sheet.cell(r,4).value
 
-				values = (name, author_id[0],style_id[0],date, description)			
+				values = (name, author_id[0][0],style_id[0][0],date, description)			
 
 			elif sheet_names[i] == "PLACE":
+				name_of_location = name
 				cursor.execute("""SELECT name FROM PLACE WHERE name = '%s' """ % (name.strip()))
 				check =  cursor.fetchall()
-				if(name == check[0][0]):
-					break
+				if(len(check) > 0):
+					if(name == check[0][0]):
+						break
 
 				price 			= int(sheet.cell(r,1).value)
 				country 		= sheet.cell(r,2).value
@@ -86,11 +95,27 @@ for i in range (0,len(sheet_names)):
 			print(values)
 			cursor.execute(query, values)
 
-	# Close the cursor
-	cursor.close()
-
 	# Commit the transaction
 	database.commit()
+
+query = """INSERT INTO LOCATION (PLACE_ID, AUTHOR_ID,Piece) VALUES (%s, %s, %s)"""
+for i in ART_PIECE_name:
+	cursor.execute("""SELECT ID FROM PLACE WHERE name = '%s' """ % (name_of_location.strip()))
+	print("AT")
+	PLACE_ID =  cursor.fetchall()
+	cursor.execute("""SELECT ID,author FROM ART_PIECE WHERE name = '%s' """ % (i.strip()))
+	print("AP")
+	Piece =  cursor.fetchall()
+
+
+	values = (PLACE_ID[0][0],Piece[0][1],Piece[0][0])
+	print(values)
+	cursor.execute(query, values)
+
+	database.commit()
+
+# Close the cursor
+cursor.close()
 
 # Close the database connection
 database.close()
