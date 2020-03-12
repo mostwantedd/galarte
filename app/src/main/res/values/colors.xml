@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="paletteBeige">#EAE4B9</color>
+    <color name="paletteDarkBlue">#4A6FA5</color>
+    <color name="paletteLightBlue">#BFE3EB</color>
+    <color name="paletteGrey">#8F9A92</color>
+    <color name="paletteNavy">#4D5F68</color>
+    <color name="paletteGreen">#C0D684</color>
+
+    <!-- Light Colours -->
+    <color name="lightColorPrimary">#8F9A92</color>
+    <color name="lightColorPrimaryDark">#4D5F68</color>
+    <color name="lightColorAccent">#4A6FA5</color>
+    <!-- Dark Colours -->
+    <color name="darkColorPrimary">#1b262c</color>
+    <color name="darkColorPrimaryLight">#BFE3EB</color>
+    <color name="darkColorAccent">#4A6FA5</color>
+    <color name="darkBackground">#121212</color>
+    <color name="white">#FFFFFF</color>
+</resources>

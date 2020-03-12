@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="backButtonSettings"
+        android:widgetLayout="@layout/back_button_layout"/>
+
+    <PreferenceCategory
+        android:title="Display">
+
+        <SwitchPreference
+            android:key="pref_dark_mode"
+            android:title="Dark Mode"
+            android:summary="Enables Dark Mode across the entire App"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Account">
+
+        <Preference
+            android:title="Username"
+            android:key="Logout"
+            android:widgetLayout="@layout/logout_button_layout">
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Region">
+
+        <ListPreference
+            android:key="@string/region_select"
+            android:title="Region"
+            android:summary="Select the region the app will run in"
+            android:entries="@array/region_entries"
+            android:entryValues="@array/region_values"
+            android:defaultValue="united_kingdom"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Location">
+
+        <EditTextPreference
+            android:key="default_location"
+            android:title="@string/pref_default_location_title"
+            android:summary="@string/pref_default_location_summary"></EditTextPreference>
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
